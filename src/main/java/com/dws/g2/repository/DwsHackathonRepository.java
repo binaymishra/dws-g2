@@ -1,4 +1,4 @@
-package com.dws.g2;
+package com.dws.g2.repository;
 
 /**
  * @author Binay Mishra
