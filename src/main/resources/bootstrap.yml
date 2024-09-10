@@ -1,0 +1,7 @@
+# Author: Binay Mishra
+# bootstrap.yml contains common spring application configurations
+
+spring:
+  application: 
+    name: dws-g2
+

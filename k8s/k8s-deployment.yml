@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: stock-market
+  namespace: stock-market
+
+spec:
+  selector:
+    matchLabels:
+      app: stock-market
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: stock-market
+    spec:
+      containers:
+        - name: stock-market
+          image: stock-market:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 10101
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 10101
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 10101
