@@ -4,12 +4,12 @@ import com.dws.g2.model.CourseResponse;
 import com.dws.g2.model.FundDetailsResponse;
 import com.dws.g2.model.LeaderBoardResponse;
 import com.dws.g2.model.StreakResponse;
-import com.dws.g2.model.UserFundDetail;
 import com.dws.g2.model.UserFundDetailsBody;
 import com.dws.g2.service.DwsHackathonService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,10 +24,10 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin
 public class DwsHackathonEndpoints {
 
   private final DwsHackathonService service;
-
 
   @GetMapping(value = {"/", "/welcome"})
   public ResponseEntity<Object> welcome(@RequestParam(value = "name", defaultValue = "") String name) {
@@ -51,8 +51,8 @@ public class DwsHackathonEndpoints {
   }
 
   @GetMapping(value = {"/fundDetails"})
-  public ResponseEntity<List<FundDetailsResponse>> getFundDetails() {
-      return ResponseEntity.ok(service.getFundDetails());
+  public ResponseEntity<List<FundDetailsResponse>> getFundDetails(@RequestParam(value = "userName", defaultValue = "") String userName) {
+      return ResponseEntity.ok(service.getFundDetails(userName));
   }
 
   @PostMapping(value = {"/investInFund"})
@@ -61,6 +61,16 @@ public class DwsHackathonEndpoints {
     return ResponseEntity.ok(service.investInFund(userFundDetailsBody));
   }
 
+  @PostMapping(value = {"/completeCourse"})
+  public ResponseEntity<Object> completeCourse(@RequestParam(value = "userName", defaultValue = "") String userName, @RequestParam(value = "courseId", defaultValue = "0") int courseId) {
+        log.info("Completing course: {}", courseId);
+        return ResponseEntity.ok(service.completeCourse(userName, courseId));
+  }
 
+  @PostMapping(value = {"/enrollUserIntoCourse"})
+  public ResponseEntity<Object> enrollUserIntoCourse(@RequestParam(value = "userName", defaultValue = "") String userName, @RequestParam(value = "courseId", defaultValue = "0") int courseId) {
+        log.info("Enrolling user into course: {}", courseId);
+        return ResponseEntity.ok(service.enrollUserIntoCourse(userName, courseId));
+    }
 
 }

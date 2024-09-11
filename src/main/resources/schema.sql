@@ -72,24 +72,24 @@ create table user_fund_details (
 );
 
 --fund nav table
---DROP TABLE IF EXISTS fund_navs CASCADE;
---create table fund_navs (
---  id int primary key auto_increment,
---  fund_id int not null,
---  nav_date date not null,
---  nav_value decimal not null,
---  foreign key (fund_id) references fund_details (id)
---);
+DROP TABLE IF EXISTS fund_navs CASCADE;
+create table fund_navs (
+  id int primary key auto_increment,
+  fund_id int not null,
+  nav_date date not null,
+  nav_value decimal not null,
+  foreign key (fund_id) references fund_details (id)
+);
 
 ----invested amount table
---DROP TABLE IF EXISTS invested_amounts CASCADE;
---create table invested_amounts (
---  id int primary key auto_increment,
---  fund_id int not null,
---  invested_date date not null,
---  invested_amount decimal not null,
---  foreign key (fund_id) references fund_details (id)
---);
+DROP TABLE IF EXISTS invested_amounts CASCADE;
+create table invested_amounts (
+  id int primary key auto_increment,
+  fund_id int not null,
+  invested_date date not null,
+  invested_amount decimal not null,
+  foreign key (fund_id) references fund_details (id)
+);
 --
 ----current investment value table
 --DROP TABLE IF EXISTS current_investment_values CASCADE;
