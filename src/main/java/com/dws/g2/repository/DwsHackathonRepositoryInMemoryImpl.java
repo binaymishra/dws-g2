@@ -1,5 +1,6 @@
-package com.dws.g2;
+package com.dws.g2.repository;
 
+import com.dws.g2.repository.DwsHackathonRepository;
 import org.springframework.stereotype.Repository;
 
 /**
