@@ -18,6 +18,9 @@ repositories {
 
 dependencies {
 
+	implementation platform('com.google.cloud:libraries-bom:26.29.0')
+	implementation 'com.google.cloud:google-cloud-vertexai'
+
 	implementation 'org.webjars:webjars-locator:0.40'
 	implementation 'org.webjars:sockjs-client:1.0.2'
 	implementation 'org.webjars:stomp-websocket:2.3.3'
