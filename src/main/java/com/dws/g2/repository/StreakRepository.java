@@ -12,4 +12,5 @@ public interface StreakRepository extends JpaRepository<Streaks, Integer> {
 
     @Query(value = "SELECT * FROM streaks WHERE user_id = ?", nativeQuery = true)
     List<Streaks> getStreaksByUserId(int userId);
+
 }

@@ -128,8 +128,13 @@ public class DwsHackathonServiceImpl implements DwsHackathonService {
   }
 
   public StreakResponse getStreaks(String userName) {
+      Streaks streaks = new Streaks();
+      LocalDate today = LocalDate.now();
       StreakResponse streakResponses = new StreakResponse();
       int userId = userRepository.findByUsername(userName).getId();
+      streaks.setUserId(userId);
+      streaks.setLoginDate(today);
+      streakRepository.save(streaks);
       streakResponses.setRank(getRank(userId));
       streakResponses.setScore(rewardsRepository.getRewardsByUserId(userId).getReward());
       streakResponses.setStreak(getStreaks(userId));
