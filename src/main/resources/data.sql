@@ -69,6 +69,8 @@ insert into rewards (user_id, reward) values (8, 8);
 insert into rewards (user_id, reward) values (9, 7);
 
 --streaks table data
+insert into streaks (user_id, login_date) values (1, '2024-09-11');
+insert into streaks (user_id, login_date) values (1, '2024-09-10');
 insert into streaks (user_id, login_date) values (1, '2024-09-09');
 insert into streaks (user_id, login_date) values (1, '2024-09-08');
 insert into streaks (user_id, login_date) values (1, '2024-09-07');
