@@ -86,7 +86,7 @@ public class DwsHackathonServiceImpl implements DwsHackathonService {
           List<Enrollments> enrollmentsList = enrollmentsRepository.getEnrollmentsByUserId(userId);
           for (Enrollments enrollment : enrollmentsList) {
               CourseResponse courseResponse = new CourseResponse();
-              courseResponse.setCourseName(coursesRepository.getCourseTitleById(enrollment.getCourseId()));
+              courseResponse.setCourseName(coursesRepository.getCourseTitleById(enrollment.getCourseId()).getTitle());
               courseResponse.setEnrolledUsers(enrollmentsRepository.countEnrollmentsByCourseId(enrollment.getCourseId()));
               courseResponses.add(courseResponse);
           }
@@ -136,7 +136,7 @@ public class DwsHackathonServiceImpl implements DwsHackathonService {
       return streakResponses;
   }
 
-  public List<FundDetailsResponse> getFundDetails() {
+  public List<FundDetailsResponse> getFundDetails(String userName) {
       List<FundDetailsResponse> fundDetailsResponses = new ArrayList<>();
       List<FundDetails> fundDetails = fundDetailsRepository.getAllFundDetails();
       for (FundDetails fundDetail : fundDetails) {
@@ -149,6 +149,15 @@ public class DwsHackathonServiceImpl implements DwsHackathonService {
           fundDetailsResponse.setEsgScore(fundDetail.getEsgScore());
           fundDetailsResponse.setSector(fundDetail.getSector());
           fundDetailsResponses.add(fundDetailsResponse);
+
+          int userId = userRepository.findByUsername(userName).getId();
+          UserFundDetails userFundDetails = userFundDetailsRepository.getUserFundDetailsByUserIdAndFundId(userId, fundDetail.getId());
+          if (userFundDetails != null) {
+              fundDetailsResponse.setContribution(userFundDetails.getContribution());
+              fundDetailsResponse.setContributionFrequency(userFundDetails.getContributionFrequency());
+              fundDetailsResponse.setBoostFactor(userFundDetails.getBoostFactor());
+              fundDetailsResponse.setContributionCap(userFundDetails.getContributionCap());
+          }
       }
       return fundDetailsResponses;
   }
@@ -169,5 +178,35 @@ public class DwsHackathonServiceImpl implements DwsHackathonService {
       messageResponse.setMessage("Investment successful");
       return messageResponse;
 
+  }
+
+  public MessageResponse enrollUserIntoCourse(String username, int courseId) {
+      int userId = userRepository.findByUsername(username).getId();
+      Enrollments enrollment = new Enrollments();
+      enrollment.setUserId(userId);
+      enrollment.setCourseId(courseId);
+      enrollment.setCompleted(false);
+      enrollmentsRepository.save(enrollment);
+      MessageResponse messageResponse = new MessageResponse();
+      messageResponse.setMessage("Enrollment successful");
+      return messageResponse;
+  }
+
+  public MessageResponse completeCourse(String username, int courseId) {
+      int userId = userRepository.findByUsername(username).getId();
+      Enrollments enrollment = new Enrollments();
+      enrollment.setUserId(userId);
+      enrollment.setCourseId(courseId);
+      enrollment.setCompleted(true);
+      enrollmentsRepository.save(enrollment);
+
+      Courses course = coursesRepository.getCourseTitleById(courseId);
+      int score = course.getScore();
+      Rewards reward = rewardsRepository.getRewardsByUserId(userId);
+      reward.setReward(reward.getReward() + score);
+      rewardsRepository.save(reward);
+      MessageResponse messageResponse = new MessageResponse();
+      messageResponse.setMessage("Course completed successfully");
+      return messageResponse;
   }
 }

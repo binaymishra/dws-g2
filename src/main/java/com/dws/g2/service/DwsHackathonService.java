@@ -23,7 +23,11 @@ public interface DwsHackathonService {
 
     StreakResponse getStreaks(String userName);
 
-    List<FundDetailsResponse> getFundDetails();
+    List<FundDetailsResponse> getFundDetails(String userName);
     MessageResponse investInFund(UserFundDetailsBody userFundDetailsBody);
+
+    MessageResponse completeCourse(String username, int courseId);
+
+    MessageResponse enrollUserIntoCourse(String username, int courseId);
 
 }

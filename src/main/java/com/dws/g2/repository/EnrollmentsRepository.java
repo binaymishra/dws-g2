@@ -15,4 +15,7 @@ public interface EnrollmentsRepository extends JpaRepository<Enrollments, Intege
 
     @Query(value = "SELECT count(*) from enrollments where course_id = ?", nativeQuery = true)
     int countEnrollmentsByCourseId(int courseId);
+
+    @Query(value = "SELECT * FROM enrollments WHERE user_id = ? AND course_id = ?", nativeQuery = true)
+    Enrollments getEnrollmentByUserIdAndCourseId(int userId, int courseId);
 }

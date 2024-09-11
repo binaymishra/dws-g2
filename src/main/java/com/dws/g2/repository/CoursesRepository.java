@@ -13,7 +13,7 @@ public interface CoursesRepository extends JpaRepository<Courses, Integer> {
     @Query(value = "SELECT * FROM courses", nativeQuery = true)
     List<Courses> getAllCourses();
 
-    @Query(value = "SELECT title from courses where id = ?", nativeQuery = true)
-    String getCourseTitleById(int courseId);
+    @Query(value = "SELECT * from courses where id = ?", nativeQuery = true)
+    Courses getCourseTitleById(int courseId);
 
 }
